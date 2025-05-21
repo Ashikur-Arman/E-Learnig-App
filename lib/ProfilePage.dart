@@ -19,12 +19,12 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              'assets/images/Arman.jpg', // Path to your local image
-              height: 200,
-              width: 200,
-              fit: BoxFit.contain,
-            ),
+            // Image.asset(
+            //   'assets/images/Arman.jpg', // Path to your local image
+            //   height: 200,
+            //   width: 200,
+            //   fit: BoxFit.contain,
+            // ),
             SizedBox(height: 16), // Add spacing between widgets
             Text(
               "About the user",

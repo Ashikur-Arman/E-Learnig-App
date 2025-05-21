@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Books.dart';
 import 'HomePage.dart';
-import 'LivePage.dart';
+import 'QuizPage.dart';
 import 'ProfilePage.dart';
 import 'ProgressPage.dart';
 
@@ -13,7 +13,7 @@ class BottomNavBarAssigment extends StatefulWidget {
 }
 
 class _BottomNavBarAssigmentState extends State<BottomNavBarAssigment> {
-  List<Widget> pages = [Homepage(), BookPdf(),Livepage(),ProgressPage(),ProfilePage()];
+  List<Widget> pages = [Homepage(), BookPdf(),QuizPage(),ProgressPage(),ProfilePage()];
   int _selectedPage = 0;
   @override
   Widget build(BuildContext context) {
@@ -35,8 +35,12 @@ class _BottomNavBarAssigmentState extends State<BottomNavBarAssigment> {
             label: 'Books',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.live_tv),
-            label: 'Live',
+            icon: SizedBox(
+              width: 24.0,  // Set the desired width
+              height: 24.0, // Set the desired height
+              child: Image.asset('assets/images/quiz.png'),
+            ),
+            label: 'Quiz',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bar_chart),
