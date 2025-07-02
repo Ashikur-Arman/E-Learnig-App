@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'BottomNavigationBar.dart';
 
 void main(){
-  runApp( MyApp());
+  runApp( MyApp());    // koyala
 }
 
 class MyApp extends StatelessWidget{
