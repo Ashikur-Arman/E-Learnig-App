@@ -1,7 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_with_noman_android_studio/firebase_options.dart';
+import 'Authentication_part/login_screen.dart';
+import 'Authentication_part/sign_up_screen.dart';
 import 'BottomNavigationBar.dart';
 
-void main(){
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp( MyApp());
 }
 
@@ -11,7 +19,9 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BottomNavBarAssigment(),
+      //home: BottomNavBarAssigment(),
+      home: LoginScreen(),
+      // home: SignUpScreen(),
     );
   }
 }

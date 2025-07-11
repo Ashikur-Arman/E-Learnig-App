@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'Authentication_part/login_screen.dart';
 import 'Books.dart';
 import 'EnrollPage.dart';
 import 'AboutPage.dart';
@@ -11,12 +14,33 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+
+  String userName = '';
+  String userEmail = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  void fetchUserData() async {
+    var user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      var doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+      setState(() {
+        userName = doc['name'] ?? 'User';
+        userEmail = doc['email'] ?? 'admin@example.com';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.cyan,
         title: Text("Home"),
       ),
       drawer: Drawer(
@@ -24,104 +48,134 @@ class _HomepageState extends State<Homepage> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
-        child: Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(10),
-              margin:
-              const EdgeInsets.only(top: 40, left: 5, right: 5, bottom: 10),
-              height: 200,
-              width: size.width,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-                color: Colors.grey,
-              ),
-              child: Column(
-                children: [
-                  SizedBox(height: 10),
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.white.withOpacity(.5),
-                    //child: Image.asset('assets/images/Arman_round.png'),
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    "Welcome User",
-                    style: TextStyle(color: Colors.white, fontSize: 15),
-                  ),
-                  SizedBox(height: 40),
-                  Center(
-                    child: Text(
-                      "This is user profile",
-                      style: TextStyle(color: Colors.white, fontSize: 25),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.home),
-              title: Text("Home"),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Colors.grey[400],
-              ),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Settings"),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Colors.grey[400],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.info),
-              title: Text("About"),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Colors.grey[400],
-              ),
-              onTap: () {
-                // Navigate to the About page
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Aboutpage()), // Use Aboutpage here
-                );
-              },
-            ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final size = MediaQuery.of(context).size;
+            final double height = size.height;
+            final double width = size.width;
 
-            ListTile(
-              leading: Icon(Icons.delete, color: Colors.red),
-              title: Text("Delete"),
-              subtitle: Text("(If deleted then can't recover)"),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Colors.grey[400],
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.red),
-              title: Text(
-                "Log Out",
-                style: TextStyle(color: Colors.red),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Colors.grey[400],
-              ),
-            ),
-          ],
+            return Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(top: 40, left: 5, right: 5, bottom: 10),
+                  height: height * 0.25,
+                  width: width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    color: Colors.grey,
+                  ),
+                  child: Column(
+                    children: [
+                      SizedBox(height: height * 0.015),
+                      CircleAvatar(
+                        radius: width * 0.08,
+                        backgroundColor: Colors.white.withOpacity(.5),
+                        // backgroundImage: AssetImage('assets/images/Arman_round.png'),
+                      ),
+                      SizedBox(height: height * 0.015),
+                      Text(
+                        "Welcome $userName",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: width * 0.04,
+                        ),
+                      ),
+                      SizedBox(height: height * 0.04),
+                      // Center(
+                      //   child: Text(
+                      //     "$userEmail",
+                      //     textAlign: TextAlign.center,
+                      //     style: TextStyle(
+                      //       color: Colors.white,
+                      //       fontSize: width * 0.05,
+                      //     ),
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      ListTile(
+                        leading: Icon(Icons.home, size: width * 0.06),
+                        title: Text("Home", style: TextStyle(fontSize: width * 0.045)),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          size: width * 0.04,
+                          color: Colors.grey[400],
+                        ),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.settings, size: width * 0.06),
+                        title: Text("Settings", style: TextStyle(fontSize: width * 0.045)),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          size: width * 0.04,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.info, size: width * 0.06),
+                        title: Text("About", style: TextStyle(fontSize: width * 0.045)),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          size: width * 0.04,
+                          color: Colors.grey[400],
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Aboutpage()),
+                          );
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.delete, color: Colors.red, size: width * 0.06),
+                        title: Text("Delete", style: TextStyle(fontSize: width * 0.045)),
+                        subtitle: Text(
+                          "(If deleted then can't recover)",
+                          style: TextStyle(fontSize: width * 0.035),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          size: width * 0.04,
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(Icons.logout, color: Colors.red, size: width * 0.06),
+                        title: Text(
+                          "Log Out",
+                          style: TextStyle(color: Colors.red, fontSize: width * 0.045),
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          size: width * 0.04,
+                          color: Colors.grey[400],
+                        ),
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (_) => LoginScreen()),
+                                (route) => false,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
+
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
