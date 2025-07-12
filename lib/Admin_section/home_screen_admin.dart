@@ -1,7 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_with_noman_android_studio/Authentication_part/login_screen.dart';
+import 'package:flutter_with_noman_android_studio/Admin_section/drawerAdmin.dart';
+import 'package:flutter_with_noman_android_studio/Admin_section/launch_course_page.dart';
+import 'manage_courses_page.dart';
+import 'view_enrolled_students_page.dart';
 
 class HomeScreenAdmin extends StatefulWidget {
   const HomeScreenAdmin({super.key});
@@ -11,24 +12,49 @@ class HomeScreenAdmin extends StatefulWidget {
 }
 
 class _HomeScreenAdminState extends State<HomeScreenAdmin> {
-  String adminName = '';
-  String adminEmail = '';
-
-  @override
-  void initState() {
-    super.initState();
-    fetchAdminData();
-  }
-
-  void fetchAdminData() async {
-    var user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      var doc = await FirebaseFirestore.instance.collection('users').doc(user.uid).get();
-      setState(() {
-        adminName = doc['name'] ?? 'Admin';
-        adminEmail = doc['email'] ?? 'admin@example.com';
-      });
-    }
+  Widget buildAdminCard({
+    required String title,
+    required IconData icon,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      elevation: 6,
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            color: color.withOpacity(0.1),
+          ),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 30,
+                backgroundColor: color,
+                child: Icon(icon, size: 30, color: Colors.white),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+              ),
+              Icon(Icons.arrow_forward_ios, color: color),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -38,76 +64,50 @@ class _HomeScreenAdminState extends State<HomeScreenAdmin> {
         title: Text("Admin Panel"),
         backgroundColor: Colors.cyan,
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
+      drawer: AdminDrawer(),
+      body: SingleChildScrollView(
+        child: Column(
           children: [
+            SizedBox(height: 30),
 
-            // Drawer Header
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.cyan,
-              ),
-              accountName: Text(adminName),
-              accountEmail: Text(adminEmail),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Icon(Icons.admin_panel_settings, size: 40, color: Colors.cyan),
-              ),
-            ),
-
-            // Navigation Items
-            ListTile(
-              leading: Icon(Icons.dashboard),
-              title: Text("Dashboard"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.group),
-              title: Text("Manage Users"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.settings),
-              title: Text("Settings"),
-              onTap: () {},
-            ),
-            ListTile(
-              leading: Icon(Icons.help_outline),
-              title: Text("Help & Support"),
-              onTap: () {},
-            ),
-
-            Divider(),
-
-            // Logout
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.red),
-              title: Text(
-                "Log Out",
-                style: TextStyle(color: Colors.red),
-              ),
-              trailing: Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-                color: Colors.grey[400],
-              ),
-              onTap: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.pushAndRemoveUntil(
+            buildAdminCard(
+              title: "Launch New Course",
+              icon: Icons.add_circle_outline,
+              color: Colors.cyan,
+              onTap: () {
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => LoginScreen()),
-                      (route) => false,
+                  MaterialPageRoute(builder: (context) => LaunchCoursePage()),
                 );
               },
             ),
+
+            buildAdminCard(
+              title: "Manage Courses",
+              icon: Icons.edit_note,
+              color: Colors.deepOrange,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ManageCoursesPage()),
+                );
+              },
+            ),
+
+            buildAdminCard(
+              title: "View Enrolled Students",
+              icon: Icons.people,
+              color: Colors.teal,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EnrolledStudentsPage()),
+                );
+              },
+            ),
+            SizedBox(height: 30),
           ],
-        ),
-      ),
-      body: Center(
-        child: Text(
-          "Hello Admin!",
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
     );

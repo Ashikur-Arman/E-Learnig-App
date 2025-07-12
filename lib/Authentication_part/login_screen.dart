@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_with_noman_android_studio/Authentication_part/sign_up_screen.dart';
 
-import '../HomePage.dart';
+import '../BottomNavigationBar.dart';
+import '../Home_Page/HomePage.dart';
 
 import '../Admin_section/home_screen_admin.dart';
 import 'Services/auth_service.dart';
@@ -46,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if(result == "Admin"){
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> HomeScreenAdmin()),);
     } else if(result == "User"){
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> Homepage()),);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=> BottomNavBarAssigment()),);
     } else{
       // if login failed
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Signup Failed!!! $result",),),);
