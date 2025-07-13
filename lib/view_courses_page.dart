@@ -246,7 +246,10 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Available Courses")),
+      appBar: AppBar(
+        backgroundColor: Color(0xFFFFFDD0).withOpacity(.6),
+          title: Text("Available Courses"),
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _firestore
             .collection('courses')

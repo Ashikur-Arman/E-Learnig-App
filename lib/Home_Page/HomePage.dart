@@ -13,8 +13,9 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   final List<String> imagePaths = [
     'assets/images/study_image.jpg',
-    'assets/images/study_image.jpg',
-    'assets/images/study_image.jpg',
+    'assets/images/slider.png',
+    'assets/images/img.png',
+    'assets/images/img_1.png',
   ];
 
   @override
@@ -22,7 +23,7 @@ class _HomepageState extends State<Homepage> {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyan,
+        backgroundColor: Color(0xFFFFFDD0).withOpacity(.6),
         title: Text("Home"),
       ),
       drawer: DrawerHome(),
@@ -265,14 +266,14 @@ class _HomepageState extends State<Homepage> {
               ),
               SizedBox(height: 20),
 
-              // E-Learning Promotion Messages Section
+              // E-Learning Benefits Section
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "E-Learning Promotion Messages:",
+                      "Discover the Power of E-Learning",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -291,7 +292,7 @@ class _HomepageState extends State<Homepage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "💡 Embrace online education for a brighter future.",
+                        "Access education anytime, from anywhere in the world.",
                         style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                     ),
@@ -306,7 +307,7 @@ class _HomepageState extends State<Homepage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "🌐 Learn anytime, anywhere with e-learning platforms.",
+                        "Learn at your own pace with flexible schedules.",
                         style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                     ),
@@ -321,7 +322,37 @@ class _HomepageState extends State<Homepage> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        "🚀 Empower yourself with digital education tools.",
+                        "Save time and travel costs with online learning.",
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
+                      ),
+                    ),
+
+                    // Message 4
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        "Access diverse courses and expert instructors worldwide.",
+                        style: TextStyle(fontSize: 16, color: Colors.black87),
+                      ),
+                    ),
+
+                    // Message 5
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        "Develop self-discipline and digital skills for the future.",
                         style: TextStyle(fontSize: 16, color: Colors.black87),
                       ),
                     ),
