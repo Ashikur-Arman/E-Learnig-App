@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_with_noman_android_studio/Home_Page/drawerHome.dart';
-import '../EnrollPage.dart';
-import '../ProgressPage.dart';
-import '../chemistry_play_list/youtube_playlist_page.dart';
+import '../playlists/biology_playlist/biology_youtube_playlist_page.dart';
+import '../playlists/chemistry_playlist/chemistry_youtube_playlist_page.dart';
+import '../playlists/math_playlist/math_youtube_playlist_page.dart';
+import '../playlists/physics_playlist/physics_playlist_page.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -90,7 +91,7 @@ class _HomepageState extends State<Homepage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProgressReportPage()),
+                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_physics()),
                       );
                     },
                     child: Container(
@@ -118,7 +119,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                           Text(
-                            '7 classes',
+                            '72 classes',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white,
@@ -132,7 +133,7 @@ class _HomepageState extends State<Homepage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProgressReportPage()),
+                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_math()),
                       );
                     },
                     child: Container(
@@ -160,7 +161,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                           Text(
-                            '17 classes',
+                            '36 classes',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white,
@@ -182,7 +183,7 @@ class _HomepageState extends State<Homepage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage()),
+                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_chemistry()),
                       );
                     },
                     child: Container(
@@ -210,7 +211,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                           Text(
-                            '21 classes',
+                            '11 classes',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white,
@@ -224,7 +225,7 @@ class _HomepageState extends State<Homepage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ProgressReportPage()),
+                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_biology()),
                       );
                     },
                     child: Container(
@@ -252,7 +253,7 @@ class _HomepageState extends State<Homepage> {
                             ),
                           ),
                           Text(
-                            '15 classes',
+                            '8 classes',
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.white,
