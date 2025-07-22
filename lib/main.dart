@@ -6,8 +6,11 @@ import 'package:get_storage/get_storage.dart';
 import 'Authentication_part/login_screen.dart';
 import 'Authentication_part/sign_up_screen.dart';
 import 'BottomNavigationBar.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   await Firebase.initializeApp(

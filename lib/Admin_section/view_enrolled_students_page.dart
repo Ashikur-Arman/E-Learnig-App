@@ -51,7 +51,8 @@ class EnrolledStudentsPage extends StatelessWidget {
                   final students = course['students'];
 
                   return ExpansionTile(
-                    title: Text(courseName, style: TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(courseName,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     children: students.isEmpty
                         ? [
                       Padding(
@@ -61,7 +62,8 @@ class EnrolledStudentsPage extends StatelessWidget {
                     ]
                         : [
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding:
+                        const EdgeInsets.symmetric(horizontal: 16.0),
                         child: ElevatedButton(
                           onPressed: () {
                             showMCQDialog(context, courseId, courseName);
@@ -80,9 +82,12 @@ class EnrolledStudentsPage extends StatelessWidget {
                             children: [
                               Text(student['email'] ?? ''),
                               if (score != null && total != null)
-                                Text("✅ Score: $score / $total", style: TextStyle(color: Colors.green)),
+                                Text("✅ Score: $score / $total",
+                                    style:
+                                    TextStyle(color: Colors.green)),
                               if (score == null)
-                                Text("⚠️ Quiz not attempted", style: TextStyle(color: Colors.red)),
+                                Text("⚠️ Quiz not attempted",
+                                    style: TextStyle(color: Colors.red)),
                             ],
                           ),
                         );
@@ -98,7 +103,8 @@ class EnrolledStudentsPage extends StatelessWidget {
     );
   }
 
-  Future<List<Map<String, dynamic>>> _loadAllEnrollments(List<QueryDocumentSnapshot> courses) async {
+  Future<List<Map<String, dynamic>>> _loadAllEnrollments(
+      List<QueryDocumentSnapshot> courses) async {
     List<Map<String, dynamic>> result = [];
 
     for (var course in courses) {
@@ -147,7 +153,7 @@ class EnrolledStudentsPage extends StatelessWidget {
   void showMCQDialog(BuildContext context, String courseId, String courseName) {
     int questionCount = 2;
 
-    final List<Map<String, TextEditingController>> questionControllers = [];
+    final List<Map<String, dynamic>> questionControllers = [];
 
     void initializeControllers(int count) {
       questionControllers.clear();
@@ -158,7 +164,7 @@ class EnrolledStudentsPage extends StatelessWidget {
           'option2': TextEditingController(),
           'option3': TextEditingController(),
           'option4': TextEditingController(),
-          'correctAnswer': TextEditingController(),
+          'correctAnswerIndex': 0, // 0-based index for correct answer
         });
       }
     }
@@ -186,7 +192,9 @@ class EnrolledStudentsPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Add MCQ for $courseName", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                            Text("Add MCQ for $courseName",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold)),
                             DropdownButton<int>(
                               value: questionCount,
                               items: [2, 5, 10].map((count) {
@@ -211,13 +219,55 @@ class EnrolledStudentsPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Divider(),
-                                  Text("Question ${index + 1}", style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextField(controller: controllers['question'], decoration: InputDecoration(labelText: "Question")),
-                                  TextField(controller: controllers['option1'], decoration: InputDecoration(labelText: "Option 1")),
-                                  TextField(controller: controllers['option2'], decoration: InputDecoration(labelText: "Option 2")),
-                                  TextField(controller: controllers['option3'], decoration: InputDecoration(labelText: "Option 3")),
-                                  TextField(controller: controllers['option4'], decoration: InputDecoration(labelText: "Option 4")),
-                                  TextField(controller: controllers['correctAnswer'], decoration: InputDecoration(labelText: "Correct Answer")),
+                                  Text("Question ${index + 1}",
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold)),
+                                  TextField(
+                                    controller: controllers['question'],
+                                    decoration:
+                                    InputDecoration(labelText: "Question"),
+                                  ),
+                                  TextField(
+                                    controller: controllers['option1'],
+                                    decoration:
+                                    InputDecoration(labelText: "Option 1"),
+                                  ),
+                                  TextField(
+                                    controller: controllers['option2'],
+                                    decoration:
+                                    InputDecoration(labelText: "Option 2"),
+                                  ),
+                                  TextField(
+                                    controller: controllers['option3'],
+                                    decoration:
+                                    InputDecoration(labelText: "Option 3"),
+                                  ),
+                                  TextField(
+                                    controller: controllers['option4'],
+                                    decoration:
+                                    InputDecoration(labelText: "Option 4"),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text("Select Correct Answer:"),
+                                  Row(
+                                    children: List.generate(4, (optionIndex) {
+                                      return Expanded(
+                                        child: RadioListTile<int>(
+                                          title:
+                                          Text("Option ${optionIndex + 1}"),
+                                          value: optionIndex,
+                                          groupValue:
+                                          controllers['correctAnswerIndex'],
+                                          onChanged: (val) {
+                                            setState(() {
+                                              controllers['correctAnswerIndex'] =
+                                              val!;
+                                            });
+                                          },
+                                        ),
+                                      );
+                                    }),
+                                  ),
                                 ],
                               );
                             }),
@@ -234,29 +284,55 @@ class EnrolledStudentsPage extends StatelessWidget {
                         ),
                         ElevatedButton(
                           onPressed: () async {
+                            // Validate all question and options filled
+                            bool valid = true;
+                            for (var q in questionControllers) {
+                              if (q['question']!.text.trim().isEmpty ||
+                                  q['option1']!.text.trim().isEmpty ||
+                                  q['option2']!.text.trim().isEmpty ||
+                                  q['option3']!.text.trim().isEmpty ||
+                                  q['option4']!.text.trim().isEmpty) {
+                                valid = false;
+                                break;
+                              }
+                            }
+
+                            if (!valid) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Please fill all question fields."),
+                                  backgroundColor: Colors.red,
+                                ),
+                              );
+                              return;
+                            }
+
+                            // Save quizzes in Firestore
                             for (var q in questionControllers) {
                               await FirebaseFirestore.instance
                                   .collection('courses')
                                   .doc(courseId)
                                   .collection('quizzes')
                                   .add({
-                                'question': q['question']!.text,
+                                'question': q['question']!.text.trim(),
                                 'options': [
-                                  q['option1']!.text,
-                                  q['option2']!.text,
-                                  q['option3']!.text,
-                                  q['option4']!.text,
+                                  q['option1']!.text.trim(),
+                                  q['option2']!.text.trim(),
+                                  q['option3']!.text.trim(),
+                                  q['option4']!.text.trim(),
                                 ],
-                                'correctAnswer': q['correctAnswer']!.text,
+                                'correctAnswerIndex': q['correctAnswerIndex'],
                                 'timestamp': FieldValue.serverTimestamp(),
                               });
                             }
 
                             Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("✅ Quiz added for $courseName"),
-                              backgroundColor: Colors.green,
-                            ));
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("✅ Quiz added for $courseName"),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
                           },
                           child: Text("Publish"),
                         ),

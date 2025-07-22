@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_with_noman_android_studio/playlists/math_playlist/math_video_player_page.dart';
 import 'package:get/get.dart';
 import 'math_youtube_controller.dart';
+import 'math_video_player_page.dart';
 
 class YouTubePlaylistPage_math extends StatelessWidget {
   final YouTubeController_math controller = Get.put(YouTubeController_math());

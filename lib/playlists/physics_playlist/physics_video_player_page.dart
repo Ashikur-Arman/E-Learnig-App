@@ -30,7 +30,7 @@ class _VideoPlayerPageState extends State<VideoPlayerPage_physics> {
     String videoId = video["snippet"]["resourceId"]["videoId"];
     _youtubeController = YoutubePlayerController(
       initialVideoId: videoId,
-      flags: YoutubePlayerFlags(autoPlay: true),
+      flags: const YoutubePlayerFlags(autoPlay: true),
     );
   }
 
@@ -61,12 +61,12 @@ class _VideoPlayerPageState extends State<VideoPlayerPage_physics> {
           YoutubePlayer(
             controller: _youtubeController,
             showVideoProgressIndicator: true,
-            progressColors: ProgressBarColors(
+            progressColors: const ProgressBarColors(
               playedColor: Colors.red,
               handleColor: Colors.redAccent,
             ),
             onEnded: (meta) {
-              // ভিডিও শেষ হলে পরের ভিডিও প্লে করতে চাইলে নিচের কোড আনকমেন্ট করো
+              // ভিডিও শেষ হলে পরের ভিডিও চালাতে চাইলে এখানে কোড আনকমেন্ট করো
               // int nextIndex = (currentIndex + 1) % widget.playlist.length;
               // _playVideo(nextIndex);
             },

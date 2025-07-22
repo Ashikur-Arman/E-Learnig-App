@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Books.dart';
 import 'Home_Page/HomePage.dart';
-import 'view_courses_page.dart';
+import 'quiz/view_courses_page.dart';
 import 'ProgressPage.dart';
 
 class BottomNavBarAssigment extends StatefulWidget {

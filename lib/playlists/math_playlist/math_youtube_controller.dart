@@ -1,15 +1,13 @@
 import 'dart:convert';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 
 class YouTubeController_math extends GetxController {
-  var videoList = [].obs;
-
-  // ✅ নতুন Playlist ID দিয়ে আপডেট করলাম
-  final String playlistId = "PLbr-EXc_9puk3t6eVvkhHvkBCMolJM3tb";
-
-  // ✅ আগের API Key ঠিকই আছে
-  final String apiKey = "AIzaSyDoLgDLKhwfyLKbuh8pcHFS-N3QR8_iPlg";
+  var videoList = <dynamic>[].obs;
+  final String playlistId = "PLbr-EXc_9puk3t6eVvkhHvkBCMolJM3tb"; // Math Playlist ID
+  final String apiKey = dotenv.env['GOOGLE_API_KEY']!;
+  String? nextPageToken;
 
   @override
   void onInit() {
@@ -18,13 +16,19 @@ class YouTubeController_math extends GetxController {
   }
 
   void fetchPlaylistVideos() async {
-    String url = "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=$playlistId&maxResults=20&key=$apiKey";
+    String url =
+        "https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=$playlistId&maxResults=50&key=$apiKey";
+
+    if (nextPageToken != null) {
+      url += "&pageToken=$nextPageToken";
+    }
 
     try {
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
-        videoList.value = data["items"];
+        nextPageToken = data["nextPageToken"];
+        videoList.addAll(data["items"]);
       } else {
         print("Failed to load videos, status code: ${response.statusCode}");
       }

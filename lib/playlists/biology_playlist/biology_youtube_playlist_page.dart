@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_with_noman_android_studio/playlists/biology_playlist/biology_video_player_page.dart';
 import 'package:get/get.dart';
 import 'biology_youtube_controller.dart';
-
+import 'biology_video_player_page.dart';
 
 class YouTubePlaylistPage_biology extends StatelessWidget {
-  final YouTubeControllerforBiology controller = Get.put(YouTubeControllerforBiology());
+  final YouTubeController_biology controller = Get.put(YouTubeController_biology());
 
   @override
   Widget build(BuildContext context) {
