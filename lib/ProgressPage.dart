@@ -309,7 +309,7 @@ class _ProgressReportPageState extends State<ProgressReportPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Congratulations!!!",
+                          "Congratulations!!! ",
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
