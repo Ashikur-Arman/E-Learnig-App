@@ -35,8 +35,7 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
     final user = _auth.currentUser;
     if (user == null) return;
 
-    DocumentSnapshot userDoc =
-    await _firestore.collection('users').doc(user.uid).get();
+    DocumentSnapshot userDoc = await _firestore.collection('users').doc(user.uid).get();
 
     if (userDoc.exists && userDoc.data() != null) {
       List<dynamic>? enrolledCourses = userDoc.get('enrolledCourses');
@@ -68,8 +67,7 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
     }
 
     try {
-      DocumentSnapshot userDoc =
-      await _firestore.collection("users").doc(user.uid).get();
+      DocumentSnapshot userDoc = await _firestore.collection("users").doc(user.uid).get();
       String userName = userDoc.get('name') ?? 'Anonymous';
       String userEmail = userDoc.get('email') ?? 'No Email';
 
@@ -114,23 +112,17 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          title: Text(courseName,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-          content: Text(description.isNotEmpty
-              ? description
-              : "No description available."),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          title: Text(courseName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          content: Text(description.isNotEmpty ? description : "No description available."),
           actions: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: TextButton(
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.blue,
-                  padding:
-                  EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
+                  padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                   backgroundColor: Colors.grey.shade200,
                 ),
                 onPressed: () => Navigator.pop(context),
@@ -169,17 +161,13 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        title: Text(courseName,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text(courseName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(description.isNotEmpty
-                ? description
-                : "No description available."),
+            Text(description.isNotEmpty ? description : "No description available."),
             SizedBox(height: 20),
             if (!hasQuiz)
               Text("⚠️ No Quiz available for this course",
@@ -187,21 +175,16 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
             else if (hasGivenQuiz)
               Text("You have already given the Quiz.\nScore: $score/$total",
                   style: TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16))
+                      color: Colors.red, fontWeight: FontWeight.bold, fontSize: 16))
             else
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue.shade600,
-                    padding:
-                    EdgeInsets.symmetric(vertical: 14, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    textStyle:
-                    TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () async {
                     Navigator.pop(context);
@@ -231,8 +214,7 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.blue,
                 padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 backgroundColor: Colors.grey.shade200,
               ),
               onPressed: () => Navigator.of(context).pop(),
@@ -251,56 +233,96 @@ class _ViewCoursesPageState extends State<ViewCoursesPage> {
         backgroundColor: Color(0xFFFFFDD0).withOpacity(.6),
         title: Text("Available Courses"),
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore
-            .collection('courses')
-            .orderBy('timestamp', descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFB2EBF2),
+              Color(0xFF4DD0E1),
+              Color(0xFF00838F),
+            ],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: StreamBuilder<QuerySnapshot>(
+          stream: _firestore
+              .collection('courses')
+              .orderBy('timestamp', descending: true)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
 
-          final courses = snapshot.data!.docs;
+            final courses = snapshot.data!.docs;
 
-          if (courses.isEmpty) {
-            return Center(child: Text("No courses available"));
-          }
+            if (courses.isEmpty) {
+              return Center(child: Text("No courses available"));
+            }
 
-          return ListView.builder(
-            itemCount: courses.length,
-            itemBuilder: (context, index) {
-              final course = courses[index];
-              final data = course.data()! as Map<String, dynamic>;
-              final isEnrolled = enrolledCourseIds.contains(course.id);
+            return ListView.builder(
+              itemCount: courses.length,
+              itemBuilder: (context, index) {
+                final course = courses[index];
+                final data = course.data()! as Map<String, dynamic>;
+                final isEnrolled = enrolledCourseIds.contains(course.id);
 
-              return Card(
-                margin: EdgeInsets.all(10),
-                child: ListTile(
-                  title: Text(data['courseName'] ?? 'No Name'),
-                  subtitle:
-                  Text("Starts: ${data['startDate']} | Ends: ${data['endDate']}"),
-                  trailing: ElevatedButton(
-                    onPressed: isEnrolled
-                        ? null
-                        : () => enrollInCourse(course.id, data['courseName'] ?? ''),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isEnrolled ? Colors.green : Colors.cyan,
-                    ),
-                    child: Text(isEnrolled ? "Enrolled" : "Enroll"),
-                  ),
-                  onTap: () {
-                    showCourseDescriptionDialog(
-                      context,
-                      course.id,
+                return Card(
+                  margin: EdgeInsets.all(10),
+                  child: ListTile(
+                    title: Text(
                       data['courseName'] ?? 'No Name',
-                      data['description'] ?? '',
-                      isEnrolled,
-                    );
-                  },
-                ),
-              );
-            },
-          );
-        },
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Chapter: ${data['chapterNumber'] ?? 'N/A'} | Starts: ${data['startDate']} | Ends: ${data['endDate']}",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          "Level: ${data['difficultyLevel'] ?? 'N/A'}",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                    trailing: ElevatedButton(
+                      onPressed: isEnrolled
+                          ? null
+                          : () => enrollInCourse(course.id, data['courseName'] ?? ''),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: isEnrolled ? Colors.green : Colors.cyan,
+                      ),
+                      child: Text(isEnrolled ? "Enrolled" : "Enroll"),
+                    ),
+                    onTap: () {
+                      showCourseDescriptionDialog(
+                        context,
+                        course.id,
+                        data['courseName'] ?? 'No Name',
+                        data['description'] ?? '',
+                        isEnrolled,
+                      );
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

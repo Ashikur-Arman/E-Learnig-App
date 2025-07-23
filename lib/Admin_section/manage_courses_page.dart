@@ -29,6 +29,26 @@ class ManageCoursesPage extends StatelessWidget {
     }
   }
 
+  void showDescriptionDialog(BuildContext context, String courseName, String description) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        title: Text(
+          courseName,
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+        ),
+        content: Text(description.isNotEmpty ? description : "No description available."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text("Close"),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,22 +100,32 @@ class ManageCoursesPage extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(vertical: 8),
                 child: ListTile(
                   title: Text(course['courseName'] ?? 'No Name'),
-                  subtitle: Text(
-                    "Start: ${course['startDate']} | End: ${course['endDate']}\n"
-                        "Price: ৳${course['price']} | Discount: ৳${course['discount']}",
-                  ),
-                  isThreeLine: true,
-                  trailing: Column(
-                    mainAxisAlignment: MainAxisAlignment.center, // <-- center vertically
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          deleteCourse(doc.id);
-                        },
+                      Text(
+                        "Chapter: ${course['chapterNumber'] ?? 'N/A'} | Level: ${course['difficultyLevel'] ?? 'N/A'}",
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "Start: ${course['startDate']} | End: ${course['endDate']}",
                       ),
                     ],
                   ),
+                  isThreeLine: true,
+                  trailing: IconButton(
+                    icon: Icon(Icons.delete, color: Colors.red),
+                    onPressed: () {
+                      deleteCourse(doc.id);
+                    },
+                  ),
+                  onTap: () {
+                    showDescriptionDialog(
+                      context,
+                      course['courseName'] ?? 'No Name',
+                      course['description'] ?? '',
+                    );
+                  },
                 ),
               );
             }).toList(),

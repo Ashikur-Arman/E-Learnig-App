@@ -31,13 +31,15 @@ class _HomepageState extends State<Homepage> {
       body: SingleChildScrollView(
         child: Container(
           width: size.width,
-          // height: size.height, // scroll ঠিক রাখতে comment করা আছে
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Color(0xFFFFA8D8),
-                Color(0xFF7D4DA1),
+                Color(0xFFB2EBF2), // Light Cyan
+                Color(0xFF4DD0E1), // Teal-ish
+                Color(0xFF00838F), // Darker blue-teal
               ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
             ),
           ),
           child: Column(
@@ -75,100 +77,36 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
 
-              // Video Classes Section
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
                   "Video Classes",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black.withOpacity(.7)),
                 ),
               ),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_physics()),
-                      );
-                    },
-                    child: Container(
-                      height: 180,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/physics.webp',
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.contain,
-                          ),
-                          Text(
-                            'Physics',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '72 classes',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                  subjectBox(
+                    title: "Physics",
+                    classCount: "72 classes",
+                    imagePath: 'assets/images/physics.webp',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => YouTubePlaylistPage_physics()),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_math()),
-                      );
-                    },
-                    child: Container(
-                      height: 180,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/math.png',
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.contain,
-                          ),
-                          Text(
-                            'Math',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '36 classes',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                  subjectBox(
+                    title: "Math",
+                    classCount: "36 classes",
+                    imagePath: 'assets/images/math.png',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => YouTubePlaylistPage_math()),
                     ),
                   ),
                 ],
@@ -179,95 +117,28 @@ class _HomepageState extends State<Homepage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_chemistry()),
-                      );
-                    },
-                    child: Container(
-                      height: 180,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/chemistry_bg.png',
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.contain,
-                          ),
-                          Text(
-                            'Chemistry',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '11 classes',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                  subjectBox(
+                    title: "Chemistry",
+                    classCount: "11 classes",
+                    imagePath: 'assets/images/chemistry_bg.png',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => YouTubePlaylistPage_chemistry()),
                     ),
                   ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => YouTubePlaylistPage_biology()),
-                      );
-                    },
-                    child: Container(
-                      height: 180,
-                      width: 180,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/images/biology_bg.png',
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.contain,
-                          ),
-                          Text(
-                            'Biology',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          Text(
-                            '8 classes',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
+                  subjectBox(
+                    title: "Biology",
+                    classCount: "8 classes",
+                    imagePath: 'assets/images/biology_bg.png',
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => YouTubePlaylistPage_biology()),
                     ),
                   ),
                 ],
               ),
               SizedBox(height: 20),
 
-              // E-Learning Benefits Section
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
                 child: Column(
@@ -278,83 +149,30 @@ class _HomepageState extends State<Homepage> {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.black.withOpacity(0.6), // <-- কালো রঙ
                       ),
                     ),
                     SizedBox(height: 10),
 
-                    // Message 1
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        "Access education anytime, from anywhere in the world.",
-                        style: TextStyle(fontSize: 16, color: Colors.black87),
-                      ),
-                    ),
-
-                    // Message 2
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        "Learn at your own pace with flexible schedules.",
-                        style: TextStyle(fontSize: 16, color: Colors.black87),
-                      ),
-                    ),
-
-                    // Message 3
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        "Save time and travel costs with online learning.",
-                        style: TextStyle(fontSize: 16, color: Colors.black87),
-                      ),
-                    ),
-
-                    // Message 4
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        "Access diverse courses and expert instructors worldwide.",
-                        style: TextStyle(fontSize: 16, color: Colors.black87),
-                      ),
-                    ),
-
-                    // Message 5
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        "Develop self-discipline and digital skills for the future.",
-                        style: TextStyle(fontSize: 16, color: Colors.black87),
+                    ...[
+                      "Access education anytime, from anywhere in the world.",
+                      "Learn at your own pace with flexible schedules.",
+                      "Save time and travel costs with online learning.",
+                      "Access diverse courses and expert instructors worldwide.",
+                      "Develop self-discipline and digital skills for the future.",
+                    ].map(
+                          (message) => Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.symmetric(vertical: 8),
+                        padding: EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.4),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          message,
+                          style: TextStyle(fontSize: 16, color: Colors.black.withOpacity(0.7)), // <-- কালো রঙ
+                        ),
                       ),
                     ),
                   ],
@@ -364,6 +182,51 @@ class _HomepageState extends State<Homepage> {
               SizedBox(height: 20),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget subjectBox({
+    required String title,
+    required String classCount,
+    required String imagePath,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 180,
+        width: 180,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.4),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              imagePath,
+              height: 120,
+              width: 120,
+              fit: BoxFit.contain,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black.withOpacity(0.7), // এখানে কালো রঙ
+              ),
+            ),
+            Text(
+              classCount,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black.withOpacity(0.7), // এখানে কালো রঙ
+              ),
+            ),
+          ],
         ),
       ),
     );
