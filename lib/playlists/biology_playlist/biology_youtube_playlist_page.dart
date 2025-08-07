@@ -11,7 +11,7 @@ class YouTubePlaylistPage_biology extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Biology Videos"),
-        backgroundColor: Color(0xFFFFF3E0), // Cream color (unchanged AppBar)
+        backgroundColor: Color(0xFFFFF3E0),
       ),
       body: Container(
         decoration: const BoxDecoration(

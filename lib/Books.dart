@@ -58,7 +58,7 @@ class _BookPdfState extends State<BookPdf> {
           "Choose Subject",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: const Color(0xFFFFFDD0).withOpacity(.8), // Cream color with a bit more opacity
+        backgroundColor: const Color(0xFFFFFDD0).withOpacity(.8),
         centerTitle: true,
       ),
       body: Container(

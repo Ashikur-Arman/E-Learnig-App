@@ -10,7 +10,7 @@ class YouTubePlaylistPage_math extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFFFFDD0), // Cream Color
+        backgroundColor: const Color(0xFFFFFDD0),
         title: const Text(
           "Math Videos",
           style: TextStyle(color: Colors.black),
@@ -86,14 +86,14 @@ class YouTubePlaylistPage_math extends StatelessWidget {
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Colors.black, // কালো টেক্সট
+                                  color: Colors.black,
                                 ),
                               ),
                               const SizedBox(height: 6),
                               Text(
                                 video["channelTitle"],
                                 style: TextStyle(
-                                  color: Colors.grey[800], // কালো টেক্সট একটু হালকা
+                                  color: Colors.grey[800],
                                   fontSize: 13,
                                 ),
                               ),

@@ -86,14 +86,14 @@ class YouTubePlaylistPage_chemistry extends StatelessWidget {
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Colors.black, // কালো টেক্সট
+                                  color: Colors.black,
                                 ),
                               ),
                               const SizedBox(height: 6),
                               Text(
                                 video["channelTitle"],
                                 style: const TextStyle(
-                                  color: Colors.black, // কালো টেক্সট
+                                  color: Colors.black,
                                   fontSize: 13,
                                 ),
                               ),

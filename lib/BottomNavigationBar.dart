@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Books.dart';
 import 'Home_Page/HomePage.dart';
 import 'quiz/view_courses_page.dart';
-import 'ProgressPage.dart';
+import 'Progress_Pages/1_ProgressPage_Individual.dart';
 
 class BottomNavBarAssigment extends StatefulWidget {
   const BottomNavBarAssigment({super.key});

@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../AboutPage.dart';
+import 'package:get_storage/get_storage.dart';
 import '../Authentication_part/login_screen.dart';
-
-
+import '../about_section.dart';
+import '../leaderboardPage.dart';
+import '../routineImagePage.dart';
 
 class DrawerHome extends StatefulWidget {
   const DrawerHome({super.key});
@@ -42,122 +43,165 @@ class _DrawerHomeState extends State<DrawerHome> {
     final size = MediaQuery.of(context).size;
 
     return Drawer(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.only(top: 40, left: 10, right: 10, bottom: 10),
-            height: 200,
-            width: size.width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey,
+      child: Container(
+        width: double.infinity,
+        color: const Color(0xFFFFFDD0).withOpacity(0.3), // Cream background with opacity
+        child: Column(
+          children: [
+            // Welcome Section
+            Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.only(
+                  top: 40, left: 10, right: 10, bottom: 10),
+              height: 200,
+              width: size.width,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF0097A7), // Darker blue
+                    Color(0xFF00ACC1), // Lighter accent
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(height: 10),
+                  const CircleAvatar(
+                    radius: 35,
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.black,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Welcome $userName",
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    userEmail,
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.8),
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              children: [
-                const SizedBox(height: 10),
-                CircleAvatar(
-                  radius: 35,
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.person,
-                    size: 60,
-                    color: Colors.black,
+
+            // List Section
+            Expanded(
+              child: ListView(
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.home, color: Colors.black),
+                    title: const Text("Home",
+                        style: TextStyle(color: Colors.black)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: Colors.grey[700],
+                    ),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Welcome $userName",
-                  style: const TextStyle(color: Colors.white, fontSize: 20),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  userEmail,
-                  style: TextStyle(
-                    color: Colors.blue.withOpacity(0.6),
-                    fontSize: 16,
+                  ListTile(
+                    leading: Icon(Icons.rocket, color: Colors.black),
+                    title: Text("Routine",
+                        style: TextStyle(color: Colors.black)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: Colors.grey[700],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => RoutineImagePage()),
+                      );
+                    },
                   ),
-                ),
-              ],
+                  ListTile(
+                    leading: const Icon(Icons.info, color: Colors.black),
+                    title: const Text("About",
+                        style: TextStyle(color: Colors.black)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: Colors.grey[700],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AboutSection()),
+                      );
+                    },
+                  ),
+                  // ListTile(
+                  //   onTap: () {
+                  //     Navigator.push(
+                  //       context,
+                  //       MaterialPageRoute(builder: (_) => LeaderboardPage()),
+                  //     );
+                  //   },
+                  //   leading: Icon(Icons.leaderboard, color: Colors.blue),
+                  //   title: Text(
+                  //     "Leaderboard",
+                  //     style: TextStyle(
+                  //       color: Colors.blue,
+                  //       fontWeight: FontWeight.w600,
+                  //     ),
+                  //   ),
+                  //   subtitle: Text(
+                  //     "View top scorers and progress",
+                  //     style: TextStyle(
+                  //       color: Colors.blueAccent,
+                  //       fontSize: 12,
+                  //     ),
+                  //   ),
+                  //   trailing: Icon(
+                  //     Icons.arrow_forward_ios,
+                  //     size: 18,
+                  //     color: Colors.blue,
+                  //   ),
+                  // ),
+
+                  ListTile(
+                    leading: const Icon(Icons.logout, color: Colors.red),
+                    title: const Text("Log Out",
+                        style: TextStyle(color: Colors.red)),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 20,
+                      color: Colors.redAccent,
+                    ),
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+
+                        final box = GetStorage(); // Initialize GetStorage
+                        box.erase(); // Clear all stored session data
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (_) => LoginScreen()),
+                              (route) => false,
+                        );
+                      },
+                  ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: ListView(
-              children: [
-                ListTile(
-                  leading: Icon(Icons.home),
-                  title: Text("Home"),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20,
-                    color: Colors.grey[400],
-                  ),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.settings),
-                  title: Text("Settings"),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20,
-                    color: Colors.grey[400],
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(Icons.info),
-                  title: Text("About"),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20,
-                    color: Colors.grey[400],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Aboutpage()),
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.delete, color: Colors.red),
-                  title: Text("Delete"),
-                  subtitle: Text("(If deleted then can't recover)"),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20,
-                    color: Colors.grey[400],
-                  ),
-                ),
-                ListTile(
-                  leading: Icon(Icons.logout, color: Colors.red),
-                  title: Text(
-                    "Log Out",
-                    style: TextStyle(color: Colors.red),
-                  ),
-                  trailing: Icon(
-                    Icons.arrow_forward_ios,
-                    size: 20,
-                    color: Colors.grey[400],
-                  ),
-                  onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (_) => LoginScreen()),
-                          (route) => false,
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

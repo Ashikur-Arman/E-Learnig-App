@@ -83,7 +83,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage_math> {
                 handleColor: Colors.redAccent,
               ),
               onEnded: (meta) {
-                // ভিডিও শেষ হলে পরের ভিডিও প্লে করতে চাইলে আনকমেন্ট করো
                 // int nextIndex = (currentIndex + 1) % widget.playlist.length;
                 // _playVideo(nextIndex);
               },

@@ -27,12 +27,32 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.jpg"/>
 
   <title>e_learning_platform_koala</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+<!-- PDF.js module script -->
+<script type="module">
+  import * as pdfjsLib from 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.mjs';
+
+  // Assign pdfjsLib globally if needed (some libs expect global)
+  window.pdfjsLib = pdfjsLib;
+
+  // Set the path to the PDF.js worker
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.min.mjs';
+
+  // Optional PDF render options
+  var pdfRenderOptions = {
+    cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/cmaps/',
+    cMapPacked: true,
+  };
+
+  console.log('✅ PDF.js loaded successfully');
+</script>
+
+<!-- Flutter bootstrap script -->
+<script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

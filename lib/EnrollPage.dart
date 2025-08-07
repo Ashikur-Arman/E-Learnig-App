@@ -36,7 +36,6 @@ class EnrollPage extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // এখানে ইনরোলমেন্ট প্রক্রিয়া বা সেভ করতে পারেন
                 print("Enrolled Successfully!");
               },
               child: Text('Submit'),

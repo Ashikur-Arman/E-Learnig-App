@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../Authentication_part/login_screen.dart';
+import '../routineImagePage.dart';
 
 class AdminDrawer extends StatefulWidget {
   const AdminDrawer({super.key});
@@ -63,9 +65,21 @@ class _AdminDrawerState extends State<AdminDrawer> {
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
-            onTap: () {},
+            leading: Icon(Icons.rocket, color: Colors.black),
+            title: Text("Routine",
+                style: TextStyle(color: Colors.black)),
+            trailing: Icon(
+              Icons.arrow_forward_ios,
+              size: 20,
+              color: Colors.grey[700],
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => RoutineImagePage()),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.help_outline),
@@ -87,14 +101,18 @@ class _AdminDrawerState extends State<AdminDrawer> {
               size: 20,
               color: Colors.grey[400],
             ),
-            onTap: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => LoginScreen()),
-                    (route) => false,
-              );
-            },
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+
+                final box = GetStorage(); // GetStorage instance
+                box.erase(); // Clear all session data
+
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
+                      (route) => false,
+                );
+              },
           ),
         ],
       ),

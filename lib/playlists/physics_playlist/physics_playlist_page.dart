@@ -109,14 +109,14 @@ class _YouTubePlaylistPage_physicsState extends State<YouTubePlaylistPage_physic
                                 style: const TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Colors.black,  // কালো টেক্সট
+                                  color: Colors.black,
                                 ),
                               ),
                               const SizedBox(height: 6),
                               Text(
                                 video["channelTitle"],
                                 style: TextStyle(
-                                  color: Colors.grey[800],  // একটু ডার্ক গ্রে
+                                  color: Colors.grey[800],
                                   fontSize: 13,
                                 ),
                               ),

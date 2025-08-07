@@ -84,7 +84,6 @@ class _VideoPlayerPageState extends State<VideoPlayerPage_physics> {
                 handleColor: Colors.redAccent,
               ),
               onEnded: (meta) {
-                // ভিডিও শেষ হলে পরের ভিডিও চালাতে চাইলে এখানে কোড আনকমেন্ট করো
                 // int nextIndex = (currentIndex + 1) % widget.playlist.length;
                 // _playVideo(nextIndex);
               },

@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class YouTubeController_chemistry extends GetxController {
   var videoList = <dynamic>[].obs;
-  final String playlistId = "PL_tDXnRj0WZUmDHPj2DbI4656RbWuqq4A";  // তোমার Chemistry Playlist ID
+  final String playlistId = "PL_tDXnRj0WZUmDHPj2DbI4656RbWuqq4A";
   final String apiKey = dotenv.env['GOOGLE_API_KEY']!;
   String? nextPageToken;
 
